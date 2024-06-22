@@ -1,31 +1,97 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34330.188
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Aplikacja na zaliczenie", "Aplikacja na zaliczenie.vcxproj", "{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Debug|x64.ActiveCfg = Debug|x64
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Debug|x64.Build.0 = Debug|x64
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Debug|x86.ActiveCfg = Debug|Win32
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Debug|x86.Build.0 = Debug|Win32
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Release|x64.ActiveCfg = Release|x64
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Release|x64.Build.0 = Release|x64
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Release|x86.ActiveCfg = Release|Win32
-		{ABE47AEF-F4C4-4B3C-A9C4-B5D0B4E2B960}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {731D2DF3-CA81-4EB0-A3B0-1574A53CE087}
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+#include <limits> // Dla std::numeric_limits
+#include <cmath> // Dla funkcji matematycznych
+
+// Funkcja do obliczenia kwadratu liczby całkowitej
+int obliczKwadrat(int liczba) {
+    return liczba * liczba;
+}
+
+double obliczPierwiastek(int liczba) {
+    return sqrt(static_cast<double>(liczba)); // konwersja do double dla funkcji sqrt
+}
+
+// Funkcja do obliczenia silni liczby całkowitej
+int obliczSilnie(int liczba) {
+    if (liczba == 0 || liczba == 1) {
+        return 1;
+    }
+    int wynik = 1;
+    for (int i = 2; i <= liczba; ++i) {
+        wynik *= i;
+    }
+    return wynik;
+}
+
+int main() {
+    int wybor;
+    bool dzialanie = true;
+
+    while (dzialanie) {
+        // Menu główne
+        std::cout << "==============================" << std::endl;
+        std::cout << "Wybierz opcje:" << std::endl;
+        std::cout << "1. Oblicz kwadrat liczby calkowitej" << std::endl;
+        std::cout << "2. Oblicz pierwiastek kwadratowy liczby calkowitej" << std::endl;
+        std::cout << "3. Oblicz silnie liczby calkowitej" << std::endl;
+        std::cout << "4. Wyjdz z programu" << std::endl;
+        std::cout << "==============================" << std::endl;
+        std::cout << "Twoj wybor: ";
+
+        // Obsługa błędnego wejścia
+        while (!(std::cin >> wybor) || wybor < 1 || wybor > 4) {
+            std::cin.clear(); // Wyczyść błąd wejścia
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignoruj resztę linii
+            std::cout << "Niepoprawny wybor opcji. Sprobuj ponownie: ";
+        }
+
+        // Switch dla wyboru opcji
+        switch (wybor) {
+        case 1: {
+            int liczba;
+            std::cout << "Podaj liczbe calkowita: ";
+            while (!(std::cin >> liczba)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Niepoprawne dane. Podaj liczbe calkowita: ";
+            }
+            int kwadrat = obliczKwadrat(liczba);
+            std::cout << "Kwadrat liczby " << liczba << " wynosi: " << kwadrat << std::endl;
+            break;
+        }
+        case 2: {
+            int liczba;
+            std::cout << "Podaj liczbe calkowita: ";
+            while (!(std::cin >> liczba) || liczba < 0) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Niepoprawne dane. Podaj nieujemna liczbe calkowita: ";
+            }
+            double pierwiastek = obliczPierwiastek(liczba);
+            std::cout << "Pierwiastek kwadratowy liczby " << liczba << " wynosi: " << pierwiastek << std::endl;
+            break;
+        }
+        case 3: {
+            int liczba;
+            std::cout << "Podaj liczbe calkowita: ";
+            while (!(std::cin >> liczba) || liczba < 0) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Niepoprawne dane. Podaj nieujemna liczbe calkowita: ";
+            }
+            int silnia = obliczSilnie(liczba);
+            std::cout << "Silnia liczby " << liczba << " wynosi: " << silnia << std::endl;
+            break;
+        }
+        case 4:
+            std::cout << "Koniec programu." << std::endl;
+            dzialanie = false;
+            break;
+        default:
+            std::cout << "Niepoprawny wybor opcji. Sprobuj ponownie." << std::endl;
+            break;
+        }
+    }
+
+    return 0;
+}
